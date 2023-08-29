@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier League Teams</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        #header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #sidebar {
+            background-color: #262626;
+            color: white;
+            padding: 20px;
+        }
+
+        #sidebar a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+        }
+
+        #content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #imageBox, #schedule, #roster, #matchOdds {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #teamLogo img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #widgetContainer {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Premier League Teams</h1>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div id="sidebar" class="col-md-3">
+                <h2>Teams</h2>
+                <div class="list-group">
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_ARSENAL_LOGO">Arsenal</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_ASTON_VILLA_LOGO">Aston Villa</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_BRENTFORD_LOGO">Brentford</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_BRIGHTON_LOGO">Brighton &amp; Hove Albion</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_BURNLEY_LOGO">Burnley</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_CHELSEA_LOGO">Chelsea</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_CRYSTAL_PALACE_LOGO">Crystal Palace</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_EVERTON_LOGO">Everton</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_LEEDS_UNITED_LOGO">Leeds United</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_LEICESTER_CITY_LOGO">Leicester City</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_LIVERPOOL_LOGO">Liverpool</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_MAN_CITY_LOGO">Manchester City</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_MAN_UNITED_LOGO">Manchester United</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_NEWCASTLE_LOGO">Newcastle United</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_NORWICH_LOGO">Norwich City</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_SOUTHAMPTON_LOGO">Southampton</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_SPURS_LOGO">Tottenham Hotspur</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_WATFORD_LOGO">Watford</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_WEST_HAM_LOGO">West Ham United</a>
+                    <a href="#" class="list-group-item" data-logo-url="URL_FOR_WOLVES_LOGO">Wolverhampton Wanderers</a>
+                </div>
+            </div>
+
+            <div id="content" class="col-md-9">
+                <div id="imageBox">
+                    <!-- Image content goes here -->
+                    <div id="teamLogo">
+                        <img src="#" alt="Team Logo">
+                    </div>
+                </div>
+                <div id="schedule">
+                    <h2>Team Schedule</h2>
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Matchup</th>
+                            <th>Result</th>
+                        </tr>
+                        {% for event in schedule_data %}
+                        <tr>
+                            <td>{{ event['Date'] }}</td>
+                            <td>{{ event['AwayTeamName'] }} vs {{ event['HomeTeamName'] }}</td>
+                            <td>{{ event['Status'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                
+                <div id="roster">
+                    <h2>Team Roster</h2>
+                    <!-- Display roster data here -->
+                </div>
+                
+                <div id="matchOdds">
+                    <h2>Match Odds</h2>
+                    <!-- Display match odds data here -->
+                </div>
+                
+                <div id="liveUpdates">
+                    <!-- Widget content goes here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const teamLinks = document.querySelectorAll('#sidebar a');
+        const teamLogo = document.querySelector('#teamLogo img');
+    
+        teamLinks.forEach(teamLink => {
+            teamLink.addEventListener('click', event => {
+                event.preventDefault();
+    
+                const teamName = teamLink.textContent.trim().toLowerCase();
+                const logoFileName = teamName + '.png';
+                const imagePath = 'images/' + logoFileName;
+    
+                teamLogo.src = imagePath;
+            });
+        });
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
